@@ -13,22 +13,107 @@ void main(void) __attribute__ ((noreturn));  //http://gcc.gnu.org/onlinedocs/gcc
 #define input(directions,pin) (directions &= (~pin)) // set port direction for input 
 #define set(port,pin) (port |= pin) // set port pin
 #define clear(port,pin) (port &= (~pin)) // clear port pin
-#define led_delay() _delay_ms(100) // LED delay
+#define led_delay() _delay_ms(500) // LED delay
 
 #define led_port PORTB
 #define led_direction DDRB
 #define ledA (1 << PB0)
 #define ledB (1 << PB1)
 #define ledC (1 << PB2)
+const char pins[] = {ledA,ledB,ledC};
+//pins[i];
+// cwrite(led1, HIGH); delay(1000);
+// led_cycle(){ blink(led1, ontime);}
+void cycle(int i) {
+	i = 0;
+	//~ for (i = 0; i < 2; i++) {
+		char a;
+		char b;
+		char c;
+		a = pins[i];
+		b = pins[(i+1)%(3)];
+		c = pins[(i+2)%(3)];
+
+		output(led_direction, a);
+		output(led_direction, b);
+		input(led_direction, c);
+		
+		set(led_port, a);
+		clear(led_port, b);
+
+		led_delay();
+		input(led_direction, a);
+		input(led_direction, b);
+		//~ set(led_port, ledA);
+		//~ clear(led_port, ledB);
+		//~ output(led_direction, ledA);
+		//~ output(led_direction, ledB);
+		//~ input(led_direction, ledC);
+		//~ led_delay();
+		//~ input(led_direction, ledA);
+		//~ input(led_direction, ledB);
+
+	i = 1;
+	//~ for (i = 0; i < 2; i++) {
+		a = pins[i];
+		b = pins[(i+1)%(3)];
+		c = pins[(i+2)%(3)];
+
+		output(led_direction, a);
+		output(led_direction, b);
+		input(led_direction, c);
+		
+		set(led_port, a);
+		clear(led_port, b);
+
+		led_delay();
+		input(led_direction, a);
+		input(led_direction, b);
+
+i = 2;
+	//~ for (i = 0; i < 2; i++) {
+		a = pins[i];
+		b = pins[(i+1)%(3)];
+		c = pins[(i+2)%(3)];
+
+		output(led_direction, a);
+		output(led_direction, b);
+		input(led_direction, c);
+		
+		set(led_port, a);
+		clear(led_port, b);
+
+		led_delay();
+		input(led_direction, a);
+		input(led_direction, b);
+		
+	//~ }
+}
 
 void main(void) {
+	
 	while (1) {
-		set(led_port, ledA);
-		clear(led_port, ledB);
-		output(led_direction, ledA);
-		output(led_direction, ledB);
-		led_delay();
-		input(led_direction, ledA);
-		input(led_direction, ledB);
+		cycle(1);
+		//~ char az;
+		//~ char bz;
+		//~ char cz;
+		//~ az = pins[2];
+		//~ bz = pins[(2+1)%3];
+		//~ cz = pins[(2+2)%3];
+		//~ set(led_port, az);
+		//~ clear(led_port, bz);
+		//~ output(led_direction, az);
+		//~ output(led_direction, bz);
+		//~ input(led_direction, cz);
+		//~ led_delay();		
+	
+		//set(led_port, pins[0]);
+		//clear(led_port, pins[(0+1)%3]);
+		//output(led_direction, pins[0]);
+		//output(led_direction, pins[(0+1)%3]);
+		//led_delay();
+		//input(led_direction, pins[0]);
+		//input(led_direction, pins[(0+1)%3]);
+
 	}
 }
