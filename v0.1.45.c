@@ -17,9 +17,12 @@ void main(void) __attribute__ ((noreturn));  //http://gcc.gnu.org/onlinedocs/gcc
 
 #define led_port PORTB
 #define led_direction DDRB
-#define LINE_A (1 << PB0)
-#define LINE_B (1 << PB1)
-#define LINE_C (1 << PB2)
+// #define LINE_A (1 << PB0)
+// #define LINE_B (1 << PB1)
+// #define LINE_C (1 << PB2)
+#define LINE_A 0
+#define LINE_B 1
+#define LINE_C 2
 
 //DDRB direction config for each LED (1 = output)
 const char led_dir[20] = {
