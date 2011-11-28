@@ -19,7 +19,8 @@ void main(void) __attribute__ ((noreturn));  //http://gcc.gnu.org/onlinedocs/gcc
 const char led_dir[6] = {
   ( 1<<LINE_B | 1<<LINE_A & ~(1<<LINE_C)), //LED 0
   ( 1<<LINE_A | 1<<LINE_B & ~(1<<LINE_C)), //LED 1
-  ( 1<<LINE_C | 1<<LINE_B & ~(1<<LINE_A)), //LED 2
+    //~ ( 1<<LINE_C | 1<<LINE_B & ~(1<<LINE_A)), //LED 2
+  ( 0b000110), //LED 2
   ( 1<<LINE_B | 1<<LINE_C & ~(1<<LINE_A)), //LED 3
   ( 1<<LINE_A | 1<<LINE_C & ~(1<<LINE_B)), //LED 4
   ( 1<<LINE_C | 1<<LINE_A & ~(1<<LINE_B)), //LED 5 
@@ -29,13 +30,14 @@ const char led_dir[6] = {
 const char led_out[6] = {
   ( 1<<LINE_B & ~(1<<LINE_A)), //LED 0
   ( 1<<LINE_A & ~(1<<LINE_B)), //LED 1
-  ( 1<<LINE_C & ~(1<<LINE_B)), //LED 2
+  //~ ( 1<<LINE_C & ~(1<<LINE_B)), //LED 2
+  ( 0b000100),
   ( 1<<LINE_B & ~(1<<LINE_C)), //LED 3
   ( 1<<LINE_A & ~(1<<LINE_C)), //LED 4  
   ( 1<<LINE_C & ~(1<<LINE_A)), //LED 5
 };
 
-void light_led(char led_num) { //led_num must be from 0 to 19
+void light_led(volatile char led_num) { //led_num must be from 0 to 19
 	DDRB = led_dir[led_num];
 	PORTB = led_out[2];
 	//~ DDRB = ( 1<<LINE_C | 1<<LINE_B & ~(1<<LINE_A)); //LED 2
@@ -53,11 +55,14 @@ void main(void) {
 	//~ DDRB = ( 1<<LINE_C | 1<<LINE_B & ~(1<<LINE_A)); //LED 2
 	//~ PORTB = ( 1<<LINE_C & ~(1<<LINE_B)); //LED 2
 	//~ led_delay();
-	//~ DDRB = led_dir[1];
-	//~ PORTB = led_out[1];
-	char led;
-	led = 2;
+	DDRB = led_dir[1];
+	PORTB = led_out[1];
 	led_delay();
+	DDRB = led_dir[0];
+	PORTB = led_out[0];
+	led_delay();
+	volatile char led;
+	led = 0b000010;
 	light_led(led);
 	led_delay();
 		// cycle();
