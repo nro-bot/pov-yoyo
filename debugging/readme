@@ -4,6 +4,8 @@ Ubuntu 11.10 apt-get : avr-gcc version 4.5.3
 Same C code, different compilers -- avr studio hex file works, ubuntu makefile based hex file does not. (Both flashed the same way, with avrdude on ubuntu).
 
 Edit: Okay, so not a compiler issue, a makefile issue. 3 kb is still unacceptable though, may need to move to assembly or a mix of the two. Or move to attiny85 or attiny44.
+
+Edit2: Not an optimization problem, changing AVR Studio to -Os instead of -O0 results in 146 byte file now, and avrstudio toolchain works while class-based makefile does not. (so it's even smaller than 150 bytes)
 ==============
 AVR Studio:
 "C:/Program Files (x86)/Atmel/AVR Studio 5.0/AVR ToolChain/bin/avr-gcc.exe" -funsigned-char -funsigned-bitfields -O0 -fpack-struct -fshort-enums -g2 -Wall -c -std=gnu99  -mmcu=attiny45   -MD -MP -MF"AVRGCC1.d" -MT"AVRGCC1.d" -o"AVRGCC1.o" ".././AVRGCC1.c"
@@ -29,7 +31,8 @@ Writing | ################################################## | 100% 1.83s
 
 ================
 Ubuntu:
-vr-objcopy -j .text -O ihex ./v0.1.45.out ./v0.1.45.c.hex;\
+avr-gcc -mmcu=attiny45 -Wall -Os -DF_CPU=8000000 -I./ -o ./v0.1.45.out ./v0.1.45.c
+avr-objcopy -j .text -O ihex ./v0.1.45.out ./v0.1.45.c.hex;\
    avr-size --mcu=attiny45 --format=avr ./v0.1.45.out
 AVR Memory Usage
 ----------------
