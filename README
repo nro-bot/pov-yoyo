@@ -1,4 +1,5 @@
-11/19/11 v1: accel, 5 leds, phototransistor, attinyxx, battery
+11/24/11: v0.1: 6 leds (3 pins), attiny45, phototrans, button, isp header (no battery), does not precisely fit CAD model 
+11/29/11: Note, 
 
 Nancy Ouyang
 orangenarwhals.blogspot.com

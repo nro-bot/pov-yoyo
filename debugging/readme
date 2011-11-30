@@ -1,0 +1,39 @@
+AVR Studio 5 : avr-gcc version 4.5.1
+Ubuntu 11.10 apt-get : avr-gcc version 4.5.3
+
+Same C code, different compilers -- avr studio hex file works, ubuntu makefile based hex file does not. (Both flashed the same way, with avrdude on ubuntu).
+
+==============
+AVR Studio:
+"C:/Program Files (x86)/Atmel/AVR Studio 5.0/AVR ToolChain/bin/avr-gcc.exe" -funsigned-char -funsigned-bitfields -O0 -fpack-struct -fshort-enums -g2 -Wall -c -std=gnu99  -mmcu=attiny45   -MD -MP -MF"AVRGCC1.d" -MT"AVRGCC1.d" -o"AVRGCC1.o" ".././AVRGCC1.c"
+
+avrdude -p t45  -c usbtiny -U flash:w:avrgcc1.hex
+avrdude: reading input file "avrgcc1.hex"
+avrdude: input file avrgcc1.hex auto detected as Intel Hex
+avrdude: writing flash (3424 bytes):
+
+Writing | ################################################## | 100% 1.83s
+
+================
+Ubuntu:
+vr-objcopy -j .text -O ihex ./v0.1.45.out ./v0.1.45.c.hex;\
+   avr-size --mcu=attiny45 --format=avr ./v0.1.45.out
+AVR Memory Usage
+----------------
+Device: attiny45
+
+Program:     162 bytes (4.0% Full)
+(.text + .data + .bootloader)
+
+Data:         12 bytes (4.7% Full)
+(.data + .bss + .noinit)
+
+
+avrdude -p t45  -c usbtiny -U flash:w:./v0.1.45.c.hex
+avrdude: reading input file "./v0.1.45.c.hex"
+avrdude: input file ./v0.1.45.c.hex auto detected as Intel Hex
+avrdude: writing flash (150 bytes):
+
+Writing | ################################################## | 100% 0.09s
+
+
