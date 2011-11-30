@@ -3,9 +3,22 @@ Ubuntu 11.10 apt-get : avr-gcc version 4.5.3
 
 Same C code, different compilers -- avr studio hex file works, ubuntu makefile based hex file does not. (Both flashed the same way, with avrdude on ubuntu).
 
+Edit: Okay, so not a compiler issue, a makefile issue. 3 kb is still unacceptable though, may need to move to assembly or a mix of the two. Or move to attiny85 or attiny44.
 ==============
 AVR Studio:
 "C:/Program Files (x86)/Atmel/AVR Studio 5.0/AVR ToolChain/bin/avr-gcc.exe" -funsigned-char -funsigned-bitfields -O0 -fpack-struct -fshort-enums -g2 -Wall -c -std=gnu99  -mmcu=attiny45   -MD -MP -MF"AVRGCC1.d" -MT"AVRGCC1.d" -o"AVRGCC1.o" ".././AVRGCC1.c"
+
+C:/Program Files (x86)/Atmel/AVR Studio 5.0/AVR ToolChain/bin/avr-gcc.exe"  -mmcu=attiny45  -Wl,-Map=AVRGCC1.map -o AVRGCC1.elf  AVRGCC1.o
+"C:/Program Files (x86)/Atmel/AVR Studio 5.0/AVR ToolChain/bin/avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature  "AVRGCC1.elf" "AVRGCC1.hex"
+		"C:/Program Files (x86)/Atmel/AVR Studio 5.0/AVR ToolChain/bin/avr-objdump.exe" -h -S "AVRGCC1.elf" > "AVRGCC1.lss"
+		"C:/Program Files (x86)/Atmel/AVR Studio 5.0/AVR ToolChain/bin/avr-objcopy.exe" -j .eeprom --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0 --no-change-warnings -O ihex "AVRGCC1.elf" "AVRGCC1.eep" || exit 0
+		AVR Memory Usage
+		----------------
+		Device: attiny45
+		Program:    3424 bytes (83.6% Full)
+		(.text + .data + .bootloader)
+		Data:         20 bytes (7.8% Full)
+		(.data + .bss + .noinit)
 
 avrdude -p t45  -c usbtiny -U flash:w:avrgcc1.hex
 avrdude: reading input file "avrgcc1.hex"
@@ -37,3 +50,14 @@ avrdude: writing flash (150 bytes):
 Writing | ################################################## | 100% 0.09s
 
 
+================
+AVR Studio instructions > ubuntu
+
+avr-gcc -funsigned-char -funsigned-bitfields -O0 -fpack-struct -fshort-enums -g2 -Wall -c -std=gnu99  -mmcu=attiny45   -MD -MP -MF"v0.1.45.d" -MT"v0.1.45.d" -o"v0.1.45.o" "v0.1.45.c"
+avr-gcc -mmcu=attiny45  -Wl,-Map=v0.1.45.map -o v0.1.45.elf  v0.1.45.o
+avr-objcopy -O ihex -R .eeprom -R .fuse -R .lock -R .signature  "v0.1.45.elf" "v0.1.45.hex"
+avr-objdump -h -S "v0.1.45.elf" > "v0.1.45.lss"
+avr-objcopy -j .eeprom --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0 --no-change-warnings -O ihex "v0.1.45.elf" "v0.1.45.eep" || exit 0
+avrdude -p t45  -c usbtiny -U flash:w:avrgcc1.hex
+
+also results in 3kb file.
