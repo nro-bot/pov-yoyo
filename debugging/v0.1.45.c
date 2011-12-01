@@ -41,9 +41,9 @@ const char led_out[6] = {
 };
 
 
-void light_led(char led_num) { //led_num must be from 0 to 19
-	DDRB = led_dir[led_num];
-	PORTB = led_out[led_num];
+void light_led(volatile unsigned char *led_num) { //led_num must be from 0 to 19
+	DDRB = led_dir[*led_num];
+	PORTB = led_out[*led_num];
 } 
 
 
@@ -56,7 +56,7 @@ void leds_off() {
 //#define light_led(a) DDRB = led_dir[(a)]; PORTB = led_out[(a)]
 
 int main(void) {
-	char led;
+	static unsigned char led;
 	led = 2;
 	while (1) {
 	led_delay();

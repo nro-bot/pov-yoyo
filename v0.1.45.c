@@ -16,12 +16,13 @@
 
 #define B3(x)	((x&0b00000001)?0:0)  \
                  +((x&0b00000010)?2:0)  \
-//~ #define B5(x)   ((x&0b00000001)?0:0)  \
-                 //~ +((x&0b00000010)?1:0)  \
-                 //~ +((x&0b00000100)?2:0)  \
-                 //~ +((x&0b00001000)?3:0)  \
-                 //~ +((x&0b00010000)?4:0) \
-                 //~ +((x&0b00010000)?5:0) \
+                 
+#define B5(x)   ((x&0b00000001)?0:0)  \
+                 +((x&0b00000010)?1:0)  \
+                 +((x&0b00000100)?2:0)  \
+                 +((x&0b00001000)?3:0)  \
+                 +((x&0b00010000)?4:0) \
+                 +((x&0b00010000)?5:0) \
                  
 //DDRB direction config for each LED (1 = output) //i/o
 const char led_dir[6] = {
@@ -44,28 +45,28 @@ const char led_out[6] = {
 };
 
                  
-const static uint8_t image[4] = {
-	B3(0b00), 
-	B3(0b10), 
-	B3(0b11), 
-	B3(0b00),
-};
+//~ const static uint8_t image[4] = {
+	//~ B3(0b00), 
+	//~ B3(0b10), 
+	//~ B3(0b11), 
+	//~ B3(0b00),
+//~ };
 
-//~ const static uint8_t image[8] = {
-	//~ B5(0b00000),
-	//~ B5(0b01110),
-	//~ B5(0b11111),
-	//~ B5(0b10001),
-	//~ B5(0b10001),
-	//~ B5(0b11111),
-	//~ B5(0b01110),
-	//~ B5(0b00000),
-//~ }; 
+const static uint8_t image[IMGLEN] = {
+	B5(0b00000),
+	B5(0b01110),
+	B5(0b11111),
+	B5(0b10001),
+	B5(0b10001),
+	B5(0b11111),
+	B5(0b01110),
+	B5(0b00000),
+}; 
 
 void light_led(char led_num) { //led_num must be from 0 to 19
 	DDRB = led_dir[led_num];
 	PORTB = led_out[led_num];
-	led_delay();
+	_delay_us(50);
 }; 
 
 void leds_off() {
@@ -76,16 +77,15 @@ void leds_off() {
 void flash_test() {
 	for(int x=0; x < 6; x++){
 		light_led(x);
-		led_delay();
 	}
 };
 
 int main(void) {
 	while (1) {
-		//flash_test();
-		for(int x = 0; x < IMGLEN; x++){
-			light_led( image[x] );
-		}
+		flash_test();
+		//~ for(int x = 0; x < IMGLEN; x++){
+			//~ light_led( image[x] );
+		//~ }
 	}
 	return 0;
 }

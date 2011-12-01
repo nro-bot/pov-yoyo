@@ -1,13 +1,14 @@
 PROJECT=./v0.1.45
 SOURCES=$(PROJECT).c
 #SOURCES=hello.txrx.45.c
+#bash: make -f v0.1.45.make program-usbtiny
 MMCU=attiny45
 F_CPU = 8000000
 
 CFLAGS=-mmcu=$(MMCU) -Wall -Os -DF_CPU=$(F_CPU)
 
 $(PROJECT).hex: $(PROJECT).out
-	avr-objcopy -j .text -O ihex $(PROJECT).out $(PROJECT).c.hex;\
+	avr-objcopy -j .text -j data-O ihex $(PROJECT).out $(PROJECT).c.hex;\
    avr-size --mcu=$(MMCU) --format=avr $(PROJECT).out
  
 $(PROJECT).out: $(SOURCES)
