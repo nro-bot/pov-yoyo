@@ -12,7 +12,7 @@
 #define LINE_A 0
 #define LINE_B 1
 #define LINE_C 2
-#define IMGLEN 18
+#define IMGLEN 55
 
 //~ #define B3(x)	((x&0b00000001)?0:0)  \
                  //~ +((x&0b00000010)?2:0)  \
@@ -45,7 +45,7 @@ const char led_out[6] = {
 void light_led(char led_num) { //led_num [0,5]
 	DDRB = led_dir[led_num];
 	PORTB = led_out[led_num];
-	_delay_us(50);
+	_delay_us(20);
 }; 
 
 const static char bit[5] = {
@@ -61,7 +61,7 @@ void check_led(char bar, int i){
 		light_led(i);
 	 }
 	 else {
-		 _delay_us(70);
+		 _delay_us(30);
 	 }
 };
 
@@ -79,24 +79,54 @@ void B5(char x) {
 //~ };
 
 const static char image[IMGLEN] = {
-	0b00011,
-	0b00111,
-	0b01111,
-	0b11111,
-	0b11111,
-	0b01111,
-	0b00011,
-//~ 0b00000, 
-//~ 0b00000, 
-//~ 0b00000, 
-//~ 0b01110, 
-//~ 0b11111,  
-//~ 0b10001, 
-//~ 0b10001, 
-//~ 0b11111, 
-//~ 0b01110, 
+0b01110, 
+0b11111, 
+0b10001, 
+0b10001, 
+0b11111, 
+0b01110, 
 0b00000, 
 0b00000, 
+0b11111, 
+0b11111, 
+0b10000, 
+0b10000, 
+0b10000, 
+0b00000, 
+0b00000, 
+0b01110, 
+0b11111, 
+0b10001, 
+0b11111, 
+0b01110, 
+0b00000, 
+0b00000, 
+0b11111, 
+0b11111, 
+0b00101, 
+0b00111, 
+0b00010, 
+0b00000, 
+0b00000, 
+0b11111, 
+0b11111, 
+0b10101, 
+0b10101, 
+0b10001, 
+0b00000, 
+0b00000, 
+0b11111, 
+0b11111, 
+0b10001, 
+0b11011, 
+0b01110, 
+0b00000, 
+0b00000, 
+0b11111, 
+0b11111, 
+0b10101, 
+0b10101, 
+0b10001,
 0b00000, 
 0b00000, 
 0b00000, 
@@ -131,7 +161,7 @@ int main(void) {
 		for(int x = 0; x < IMGLEN; x++){
 			B5(image[x]);
 			leds_off();
-			_delay_us(500);
+			_delay_us(200);
 		}
 	}
 	return 0;
