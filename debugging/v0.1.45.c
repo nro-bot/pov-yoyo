@@ -40,23 +40,25 @@ const char led_out[6] = {
   ( 1<<LINE_C & ~(1<<LINE_A)), //LED 5
 };
 
+
 void light_led(char led_num) { //led_num must be from 0 to 19
 	DDRB = led_dir[led_num];
 	PORTB = led_out[led_num];
-}  
+} 
+
 
 void leds_off() {
 	DDRB = 0;
 	PORTB = 0;
 }
 
+//it's a macro!
+//#define light_led(a) DDRB = led_dir[(a)]; PORTB = led_out[(a)]
+
 int main(void) {
-	char led = 5;
+	char led;
+	led = 2;
 	while (1) {
-	//DDRB = ( 1<<LINE_C | 1<<LINE_B & ~(1<<LINE_A)); //LED 2
-	//PORTB = ( 1<<LINE_C & ~(1<<LINE_B)); //LED 2
-	//DDRB = led_dir[1];
-	//PORTB = led_out[1];
 	led_delay();
 	light_led(led);
 	led_delay();

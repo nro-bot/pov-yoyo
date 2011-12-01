@@ -64,3 +64,34 @@ avr-objcopy -j .eeprom --set-section-flags=.eeprom=alloc,load --change-section-l
 avrdude -p t45  -c usbtiny -U flash:w:avrgcc1.hex
 
 also results in 3kb file.
+
+===========
+===========
+these work:
+derived from avr studio:
+rm *.elf *.hex *.o
+avr-gcc -Os -Wall -mmcu=attiny45 -o"v0.1.45.o" "v0.1.45.c"
+avr-objcopy -O ihex "v0.1.45.o" "v0.1.45.hex"
+avrdude -p t45  -c usbtiny -U flash:w:v0.1.45.hex
+
+derived from class makefile:
+rm *.elf *.hex *.o *.out
+avr-gcc -mmcu=attiny45 -Wall -Os -o ./v0.1.45.out ./v0.1.45.c
+avr-objcopy -j .text -j .data -O ihex ./v0.1.45.out ./v0.1.45.c.hex
+avrdude -p t45  -c usbtiny -U flash:w:v0.1.45.c.hex
+
+I figured it out! It turns out that according to the internet, the mas.863 makefiles are Bad Examples.
+
+man avr-objcopy
+       -j sectionname
+       --only-section=sectionname
+	   Copy only the named section from the input file to the output file.
+	   This	 option	 may  be  given	 more than once.  Note that using this
+	   option inappropriately may make the output file unusable. 
+"The makefile above DOES NOT create a proper HEX image
+and is a bad example. When creating an image, not only does the text section (which holds the code) need to be included but the data section (which holds any initialized data) also needs to be included.
+
+The remedy for this is correct .hex rule to to copy the data setion as well 
+Example:
+$(OBJCOPY) -j .text -j .data -O ihex $(PROJECT).out $(PROJECT).hex
+" http://www.micahcarrick.com/avr-tutorial-digital-output.html
