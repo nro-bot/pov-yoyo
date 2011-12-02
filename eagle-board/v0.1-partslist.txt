@@ -1,0 +1,24 @@
+Partlist
+
+Exported from pov-yoyo-0.1.brd at 12/2/2011 3:24:08 AM
+
+EAGLE Version 5.11.0 Copyright (c) 1988-2010 CadSoft
+
+Part     Value                   Package    Library  Position (inch)       Orientation
+
+LED1                             LED-1206   SparkFun (0.13 1.17)           R45
+LED2                             LED-1206   SparkFun (0.2 1.1)             R225
+LED3                             LED-1206   SparkFun (0.27 1.03)           R45
+LED4                             LED-1206   SparkFun (0.34 0.96)           R225
+LED5                             LED-1206   SparkFun (0.41 0.89)           R45
+LED6                             LED-1206   SparkFun (0.48 0.82)           R225
+R1       10k                     1206       SparkFun (0.88 1.24)           R0
+R2       49.9k                   1206       SparkFun (0.96 0.58)           R180
+R3       10k                     1206       SparkFun (1.19 0.67)           R180
+R4       0                       1206       SparkFun (0.51 1.01)           R315.1
+R5       0                       1206       SparkFun (0.82 0.89)           R0
+R6       0                       1206       SparkFun (0.77 0.58)           R0
+S1                               6MM_SWITCH fab      (1.17 0.86)           R180
+U$1      ATTINY45                SO08-EIAJ  SparkFun (0.8 0.74)            R90
+U$2      PHOTOTRANSISTOR-NPN1206 OP1206     fab      (1.15 0.58)           R0
+U$3      AVRISPSMD               2X03SMD    fab      (0.81 1.07)           R0
